@@ -15,9 +15,12 @@
         </p>
         
         <div class="relative">
-          <img src="https://via.placeholder.com/600x400/e5e7eb/374151?text=Hardware+Product+Image" 
-               alt="Hardware Product" 
-               class="w-full rounded-lg shadow-2xl" />
+          <div class="w-full h-96 bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg shadow-2xl flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-6xl mb-4">🖥️</div>
+              <p class="text-gray-600 font-medium">Hardware Product</p>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -102,6 +105,11 @@
             {{ loading ? 'Loading...' : 'Sign Up' }}
           </button>
 
+          <!-- Error Message -->
+          <div v-if="errorMessage" class="text-red-500 text-xs text-center">
+            {{ errorMessage }}
+          </div>
+
           <!-- Terms & Conditions -->
           <div class="text-xs text-gray-500 text-center">
             By signing up, you agree to our 
@@ -141,6 +149,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { authService } from '../services/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -156,33 +165,40 @@ const form = ref({
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const loading = ref(false)
+const errorMessage = ref('')
 
 const handleRegister = async () => {
   if (!form.value.phoneOrEmail || !form.value.fullName || !form.value.password || !form.value.confirmPassword) {
-    alert('Please enter all required fields')
+    errorMessage.value = 'Please enter all required fields'
     return
   }
   
   if (form.value.password !== form.value.confirmPassword) {
-    alert('Passwords do not match')
+    errorMessage.value = 'Passwords do not match'
+    return
+  }
+
+  if (form.value.password.length < 6) {
+    errorMessage.value = 'Password must be at least 6 characters'
     return
   }
   
   loading.value = true
+  errorMessage.value = ''
   
   try {
-    // Mock registration
-    const mockUser = {
-      id: Date.now(),
-      username: form.value.phoneOrEmail,
-      full_name: form.value.fullName,
-      role: 'user'
-    }
+    const response = await authService.register(
+      form.value.phoneOrEmail,
+      form.value.fullName,
+      form.value.password,
+      form.value.countryCode
+    )
     
-    authStore.setAuth(mockUser, 'mock-token-' + Date.now())
+    authStore.setAuth(response.user, response.token)
     router.push('/')
   } catch (error) {
-    alert('Registration failed')
+    console.error('Registration error:', error)
+    errorMessage.value = error.response?.data?.error || 'Registration failed. Please try again.'
   } finally {
     loading.value = false
   }

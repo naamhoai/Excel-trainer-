@@ -15,9 +15,12 @@
         </p>
         
         <div class="relative">
-          <img src="https://via.placeholder.com/600x400/e5e7eb/374151?text=Hardware+Product+Image" 
-               alt="Hardware Product" 
-               class="w-full rounded-lg shadow-2xl" />
+          <div class="w-full h-96 bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg shadow-2xl flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-6xl mb-4">🖥️</div>
+              <p class="text-gray-600 font-medium">Hardware Product</p>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -82,6 +85,19 @@
             {{ loading ? 'Loading...' : 'Log In' }}
           </button>
 
+          <!-- Error Message -->
+          <div v-if="errorMessage" class="text-red-500 text-sm text-center">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Demo Credentials -->
+          <div class="mt-2 text-xs text-gray-500 text-center space-y-1">
+            <p class="font-semibold">Demo Accounts:</p>
+            <p>Admin: admin@classin.com / admin123</p>
+            <p>Teacher: teacher@classin.com / teacher123</p>
+            <p>Student: student@classin.com / student123</p>
+          </div>
+
           <!-- Auto Login & Remember Password -->
           <div class="flex justify-between items-center text-sm">
             <label class="flex items-center gap-2 cursor-pointer">
@@ -141,6 +157,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { authService } from '../services/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -155,28 +172,29 @@ const form = ref({
 
 const showPassword = ref(false)
 const loading = ref(false)
+const errorMessage = ref('')
 
 const handleLogin = async () => {
   if (!form.value.phoneOrEmail || !form.value.password) {
-    alert('Please enter all required fields')
+    errorMessage.value = 'Please enter all required fields'
     return
   }
   
   loading.value = true
+  errorMessage.value = ''
   
   try {
-    // Mock login
-    const mockUser = {
-      id: 1,
-      username: form.value.phoneOrEmail,
-      full_name: 'User Name',
-      role: 'user'
-    }
+    const response = await authService.login(
+      form.value.phoneOrEmail,
+      form.value.password,
+      form.value.countryCode
+    )
     
-    authStore.setAuth(mockUser, 'mock-token-' + Date.now())
+    authStore.setAuth(response.user, response.token)
     router.push('/')
   } catch (error) {
-    alert('Login failed')
+    console.error('Login error:', error)
+    errorMessage.value = error.response?.data?.error || 'Login failed. Please try again.'
   } finally {
     loading.value = false
   }
