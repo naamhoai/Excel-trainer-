@@ -5,10 +5,8 @@
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "dev:electron": "vite --mode electron",
-    "electron": "electron .",
     "build": "vite build && electron-builder",
-    "preview": "vite preview"
+    "start": "electron ."
   },
   "dependencies": {
     "axios": "^1.6.5",
@@ -20,7 +18,11 @@
     "qrcode": "^1.5.4",
     "vue": "^3.4.0",
     "vue-router": "^4.2.0",
-    "ws": "^8.16.0"
+    "ws": "^8.16.0",
+    "xlsx": "^0.18.5",
+    "element-plus": "^2.5.6",
+    "@element-plus/icons-vue": "^2.3.1",
+    "dayjs": "^1.11.10"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",

@@ -1,0 +1,809 @@
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+
+:root {
+  --excel-green: #1D6F42;
+  --excel-green-light: #217346;
+  --excel-green-dark: #185C37;
+  --ribbon-bg: #217346;
+  --toolbar-bg: #f3f3f3;
+  --border: #d0d0d0;
+  --cell-selected: #1D6F4222;
+  --cell-selected-border: #1D6F42;
+  --grid-header: #f2f2f2;
+  --ai-color: #7C3AED;
+  --ai-bg: #EDE9FE;
+  --tutorial-bg: #1e1e2e;
+  --tutorial-text: #cdd6f4;
+}
+
+.excel-tutor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+  font-size: 12px;
+}
+
+/* TITLE BAR */
+.title-bar {
+  background: var(--excel-green-dark);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 11px;
+  gap: 8px;
+  height: 28px;
+}
+
+.title-bar .logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.title-bar .logo-icon {
+  background: white;
+  color: var(--excel-green-dark);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 11px;
+  border-radius: 2px;
+}
+
+.title-bar .file-name {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.title-bar .win-btns {
+  display: flex;
+  gap: 1px;
+}
+
+.title-bar .win-btn {
+  width: 32px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+
+.title-bar .win-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.ai-badge {
+  background: var(--ai-color);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* RIBBON */
+.ribbon {
+  background: var(--ribbon-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.ribbon-tabs {
+  display: flex;
+  padding: 0 4px;
+  padding-top: 2px;
+  gap: 1px;
+}
+
+.ribbon-tab {
+  padding: 5px 14px;
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 3px 3px 0 0;
+  background: transparent;
+  border: none;
+}
+
+.ribbon-tab:hover {
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+.ribbon-tab.active {
+  background: white;
+  color: #333;
+  font-weight: 600;
+}
+
+.ribbon-tab.tutor-tab {
+  color: #fde68a;
+  font-weight: 600;
+}
+
+.ribbon-tab.tutor-tab.active {
+  background: #fde68a;
+  color: #1a1a1a;
+}
+
+.ribbon-content {
+  background: #f3f3f3;
+  border-bottom: 1px solid var(--border);
+  padding: 6px 10px;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-height: 70px;
+}
+
+.ribbon-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 10px;
+  border-right: 1px solid #d5d5d5;
+  gap: 3px;
+}
+
+.ribbon-group:last-child {
+  border-right: none;
+}
+
+.ribbon-group-label {
+  font-size: 10px;
+  color: #666;
+  margin-top: auto;
+  text-align: center;
+}
+
+.ribbon-btns {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.rbn-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  color: #333;
+  min-width: 40px;
+  transition: background 0.1s;
+}
+
+.rbn-btn:hover {
+  background: #dde6ed;
+}
+
+.rbn-btn .icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.rbn-btn.ai-btn {
+  color: var(--ai-color);
+}
+
+.rbn-btn.ai-btn:hover {
+  background: var(--ai-bg);
+}
+
+.rbn-btn.active-btn {
+  background: var(--ai-bg);
+  color: var(--ai-color);
+  border: 1px solid var(--ai-color);
+}
+
+/* FORMULA BAR */
+.formula-bar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: white;
+  height: 30px;
+}
+
+.cell-ref {
+  width: 80px;
+  min-width: 80px;
+  border-right: 1px solid var(--border);
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.fx-label {
+  padding: 0 10px;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--excel-green);
+  font-weight: 600;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.formula-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+  font-size: 13px;
+  padding: 0 10px;
+  height: 100%;
+}
+
+.ai-explain-btn {
+  padding: 0 12px;
+  border: none;
+  border-left: 1px solid var(--border);
+  background: var(--ai-bg);
+  color: var(--ai-color);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.ai-explain-btn:hover {
+  background: #ddd6fe;
+}
+
+/* MAIN AREA */
+.main-area {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* SPREADSHEET */
+.spreadsheet-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.grid-wrapper {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+table.grid {
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.grid th {
+  background: var(--grid-header);
+  border: 1px solid var(--border);
+  padding: 0 6px;
+  text-align: center;
+  font-weight: 400;
+  color: #555;
+  position: sticky;
+  z-index: 2;
+  user-select: none;
+  position: relative;
+  height: 26px;
+  font-size: 12px;
+}
+
+.grid th.row-header {
+  left: 0;
+  z-index: 3;
+  width: 50px;
+  min-width: 50px;
+}
+
+.grid tr:first-child th {
+  top: 0;
+}
+
+.grid td {
+  border: 1px solid var(--border);
+  padding: 0;
+  min-width: 100px;
+  max-width: 100px;
+  height: 26px;
+  position: relative;
+  cursor: cell;
+}
+
+.grid td.row-header-cell {
+  background: var(--grid-header);
+  text-align: center;
+  color: #555;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  cursor: default;
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+  font-size: 12px;
+}
+
+.grid td.selected {
+  background: var(--cell-selected);
+  outline: 2px solid var(--cell-selected-border);
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+.grid td.has-formula {
+  background: #f0fff4;
+}
+
+.grid td .cell-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  font-size: 13px;
+}
+
+.grid td .cell-content.text-right {
+  justify-content: flex-end;
+}
+
+.grid td.header-row .cell-content {
+  font-weight: 700;
+  background: #e8f5e9;
+  justify-content: center;
+}
+
+.formula-indicator {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  font-size: 8px;
+  color: var(--excel-green);
+  font-weight: 700;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* TUTORIAL PANEL */
+.tutorial-panel {
+  width: 300px;
+  min-width: 300px;
+  background: var(--tutorial-bg);
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--ai-color);
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+.tutorial-panel.collapsed {
+  width: 0;
+  min-width: 0;
+  border: none;
+}
+
+.tutorial-header {
+  background: var(--ai-color);
+  color: white;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.tutorial-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tut-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.tut-close:hover {
+  opacity: 1;
+}
+
+.tutorial-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  color: var(--tutorial-text);
+}
+
+.tutorial-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.tutorial-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 2px;
+}
+
+.section-title {
+  color: #a78bfa;
+  font-weight: 700;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.lesson-card {
+  background: #2a2a3e;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+}
+
+.lesson-card.active {
+  border-color: #a78bfa;
+  background: #312e81;
+}
+
+.lesson-title {
+  font-weight: 700;
+  font-size: 11px;
+  color: #e9d5ff;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lesson-desc {
+  font-size: 10px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.lesson-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 8px;
+}
+
+.badge-active {
+  background: var(--ai-color);
+  color: white;
+}
+
+.step-container {
+  margin-top: 12px;
+}
+
+.step-label {
+  color: #94a3b8;
+  font-size: 10px;
+  margin-bottom: 8px;
+}
+
+.step-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #2a2a3e;
+  border-radius: 6px;
+  border-left: 3px solid transparent;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.step-item.current {
+  border-left-color: #a78bfa;
+  background: #312e81;
+}
+
+.step-item.done {
+  border-left-color: #16a34a;
+  opacity: 0.7;
+}
+
+.step-num {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #475569;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-item.current .step-num {
+  background: var(--ai-color);
+}
+
+.step-item.done .step-num {
+  background: #16a34a;
+}
+
+.step-text {
+  color: #cbd5e1;
+}
+
+.step-highlight {
+  color: #a78bfa;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.tip-box {
+  background: #0f172a;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 12px;
+  border: 1px solid #334155;
+}
+
+.tip-title {
+  color: #fde68a;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.tip-content {
+  color: #94a3b8;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* EXERCISE SECTION */
+.exercise-section {
+  background: #1a1a2e;
+  border-top: 1px solid #333;
+  padding: 14px;
+  flex-shrink: 0;
+}
+
+.exercise-title {
+  color: #fde68a;
+  font-weight: 700;
+  font-size: 11px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.exercise-desc {
+  color: #94a3b8;
+  font-size: 10px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.exercise-task {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  font-size: 10px;
+  color: #e2e8f0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.task-check {
+  min-width: 14px;
+  height: 14px;
+  border: 1px solid #475569;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+.task-check.done {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: white;
+}
+
+.check-btn {
+  width: 100%;
+  padding: 7px;
+  background: var(--ai-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.15s;
+}
+
+.check-btn:hover {
+  background: #6d28d9;
+}
+
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #16a34a22;
+  color: #4ade80;
+  border: 1px solid #16a34a;
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+/* AI TOOLTIP */
+.ai-tooltip {
+  position: fixed;
+  background: white;
+  border: 1px solid #7C3AED;
+  border-radius: 8px;
+  padding: 12px 14px;
+  max-width: 320px;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.2);
+  z-index: 9999;
+  display: none;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ai-tooltip.visible {
+  display: block;
+  animation: fadeIn 0.15s ease;
+}
+
+.ai-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: var(--ai-color);
+  font-size: 12px;
+}
+
+.ai-tooltip-formula {
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #5b21b6;
+  margin-bottom: 8px;
+}
+
+.ai-tooltip-body {
+  color: #374151;
+}
+
+.ai-tooltip-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  cursor: pointer;
+  color: #999;
+  font-size: 14px;
+  border: none;
+  background: none;
+}
+
+.ai-tooltip-close:hover {
+  color: #333;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #1e1e2e;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #7C3AED;
+  z-index: 9999;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* STATUS BAR */
+.status-bar {
+  background: var(--excel-green-dark);
+  color: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 26px;
+  font-size: 12px;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-divider {
+  width: 1px;
+  height: 12px;
+  background: rgba(255,255,255,0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
