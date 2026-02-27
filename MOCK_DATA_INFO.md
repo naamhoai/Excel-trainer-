@@ -13,7 +13,7 @@ Hiện tại ứng dụng đang chạy với mock data (dữ liệu giả) để
 
 ### Teacher Account
 - Email: `teacher@classin.com`
-- Password: `teacher123`
+- Password: ``
 - Role: Teacher
 
 ### Student Account

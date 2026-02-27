@@ -25,14 +25,20 @@ function createWindow() {
   }
 
   mainWindow.on('closed', () => {
+    console.log('✅ App closed successfully')
     mainWindow = null
   })
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  console.log('🚀 App started successfully')
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
+  console.log('👋 All windows closed')
   if (process.platform !== 'darwin') {
+    console.log('🔚 App is quitting...')
     app.quit()
   }
 })
@@ -41,4 +47,23 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+app.on('before-quit', () => {
+  console.log('🛑 App is shutting down...')
+})
+
+app.on('will-quit', () => {
+  console.log('✅ App closed successfully')
+})
+
+// Handle graceful shutdown
+process.on('SIGINT', () => {
+  console.log('\n👋 Received SIGINT, closing app gracefully...')
+  app.quit()
+})
+
+process.on('SIGTERM', () => {
+  console.log('\n👋 Received SIGTERM, closing app gracefully...')
+  app.quit()
 })

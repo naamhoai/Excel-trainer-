@@ -63,7 +63,15 @@ router.beforeEach((to, from, next) => {
   } else if (to.meta.requiresAdmin && authStore.user?.role !== 'admin') {
     next('/')
   } else if (to.path === '/login' && authStore.isAuthenticated) {
-    next('/')
+    // Redirect admin to admin page, others to dashboard
+    if (authStore.user?.role === 'admin') {
+      next('/admin')
+    } else {
+      next('/')
+    }
+  } else if (to.path === '/' && authStore.user?.role === 'admin') {
+    // If admin tries to access dashboard, redirect to admin page
+    next('/admin')
   } else {
     next()
   }
