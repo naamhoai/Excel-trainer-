@@ -28,116 +28,111 @@
         <div class="w-10"></div>
       </div>
 
-      <!-- Desktop Header with Notifications -->
-      <div class="hidden lg:block sticky top-0 z-30 bg-white border-b border-gray-200 px-8 py-4">
-        <div class="flex items-center justify-end gap-4">
-          <!-- Notification Bell -->
-          <div class="relative">
-            <button
-              @click="showNotifications = !showNotifications"
-              class="relative p-2 hover:bg-gray-100 rounded-lg transition"
-            >
-              <span class="text-2xl">🔔</span>
-              <span
-                v-if="notifications.filter(n => !n.read).length > 0"
-                class="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold"
-              >
-                {{ notifications.filter(n => !n.read).length }}
-              </span>
-            </button>
-
-            <!-- Notifications Dropdown -->
-            <div
-              v-if="showNotifications"
-              class="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-lg shadow-lg"
-            >
-              <div class="p-4 border-b border-gray-200 flex items-center justify-between">
-                <h3 class="font-bold text-gray-900">Thông Báo</h3>
-                <button
-                  @click="markAllAsRead"
-                  class="text-xs text-blue-600 hover:text-blue-800"
-                >
-                  Đánh dấu đã đọc
-                </button>
-              </div>
-              
-              <div v-if="notifications.length === 0" class="p-8 text-center text-gray-500">
-                <span class="text-4xl mb-2 block">📭</span>
-                <p>Không có thông báo mới</p>
-              </div>
-
-              <div v-else>
-                <div class="divide-y divide-gray-200 max-h-80 overflow-y-auto">
-                  <div
-                    v-for="notification in paginatedNotifications"
-                    :key="notification.id"
-                    @click="handleNotificationClick(notification)"
-                    :class="[
-                      'p-4 hover:bg-gray-50 cursor-pointer transition',
-                      !notification.read ? 'bg-blue-50' : ''
-                    ]"
-                  >
-                    <div class="flex items-start gap-3">
-                      <span class="text-2xl flex-shrink-0">{{ notification.icon }}</span>
-                      <div class="flex-1 min-w-0">
-                        <p class="font-medium text-gray-900 text-sm">{{ notification.title }}</p>
-                        <p class="text-xs text-gray-600 mt-1">{{ notification.message }}</p>
-                        <p class="text-xs text-gray-500 mt-2">{{ notification.time }}</p>
-                      </div>
-                      <span
-                        v-if="!notification.read"
-                        class="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"
-                      ></span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Pagination -->
-                <div v-if="totalNotificationPages > 1" class="p-3 border-t border-gray-200 flex items-center justify-between">
-                  <button
-                    @click="notificationPage = Math.max(1, notificationPage - 1)"
-                    :disabled="notificationPage === 1"
-                    :class="[
-                      'px-3 py-1 text-sm rounded',
-                      notificationPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
-                    ]"
-                  >
-                    ← Trước
-                  </button>
-                  <span class="text-sm text-gray-600">
-                    {{ notificationPage }} / {{ totalNotificationPages }}
-                  </span>
-                  <button
-                    @click="notificationPage = Math.min(totalNotificationPages, notificationPage + 1)"
-                    :disabled="notificationPage === totalNotificationPages"
-                    :class="[
-                      'px-3 py-1 text-sm rounded',
-                      notificationPage === totalNotificationPages ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
-                    ]"
-                  >
-                    Sau →
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="max-w-7xl mx-auto px-8 py-8">
         <!-- Greeting Header -->
         <div class="mb-8 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6 border border-green-100">
           <div class="flex items-center justify-between flex-wrap gap-4">
-            <div>
+            <div class="flex-1">
               <h1 class="text-2xl font-bold text-gray-900 mb-1">
                 {{ getGreeting() }}, {{ authStore.user?.full_name || 'Admin' }}! 👋
               </h1>
-              <p class="text-gray-600">{{ getCurrentDateTime() }}</p>
+              <p class="text-gray-600 mb-3">{{ getCurrentDateTime() }}</p>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-gray-600">Hôm nay</span>
+                <span class="font-bold text-green-600 text-lg">{{ stats.submissionsToday }}</span>
+                <span class="text-gray-600">bài nộp mới</span>
+              </div>
             </div>
-            <div class="text-right">
-              <p class="text-sm text-gray-600">Hôm nay</p>
-              <p class="text-2xl font-bold text-green-600">{{ stats.submissionsToday }}</p>
-              <p class="text-xs text-gray-600">bài nộp mới</p>
+            
+            <!-- Notification Bell -->
+            <div class="relative">
+              <button
+                @click="showNotifications = !showNotifications"
+                class="relative p-2 hover:bg-white/50 rounded-lg transition"
+              >
+                <span class="text-2xl">🔔</span>
+                <span
+                  v-if="notifications.filter(n => !n.read).length > 0"
+                  class="absolute top-1 right-1 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold"
+                >
+                  {{ notifications.filter(n => !n.read).length }}
+                </span>
+              </button>
+
+              <!-- Notifications Dropdown -->
+              <div
+                v-if="showNotifications"
+                class="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+              >
+                <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                  <h3 class="font-bold text-gray-900">Thông Báo</h3>
+                  <button
+                    @click="markAllAsRead"
+                    class="text-xs text-blue-600 hover:text-blue-800"
+                  >
+                    Đánh dấu đã đọc
+                  </button>
+                </div>
+                
+                <div v-if="notifications.length === 0" class="p-8 text-center text-gray-500">
+                  <span class="text-4xl mb-2 block">📭</span>
+                  <p>Không có thông báo mới</p>
+                </div>
+
+                <div v-else>
+                  <div class="divide-y divide-gray-200 max-h-80 overflow-y-auto">
+                    <div
+                      v-for="notification in paginatedNotifications"
+                      :key="notification.id"
+                      @click="handleNotificationClick(notification)"
+                      :class="[
+                        'p-4 hover:bg-gray-50 cursor-pointer transition',
+                        !notification.read ? 'bg-blue-50' : ''
+                      ]"
+                    >
+                      <div class="flex items-start gap-3">
+                        <span class="text-2xl flex-shrink-0">{{ notification.icon }}</span>
+                        <div class="flex-1 min-w-0">
+                          <p class="font-medium text-gray-900 text-sm">{{ notification.title }}</p>
+                          <p class="text-xs text-gray-600 mt-1">{{ notification.message }}</p>
+                          <p class="text-xs text-gray-500 mt-2">{{ notification.time }}</p>
+                        </div>
+                        <span
+                          v-if="!notification.read"
+                          class="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pagination -->
+                  <div v-if="totalNotificationPages > 1" class="p-3 border-t border-gray-200 flex items-center justify-between">
+                    <button
+                      @click="notificationPage = Math.max(1, notificationPage - 1)"
+                      :disabled="notificationPage === 1"
+                      :class="[
+                        'px-3 py-1 text-sm rounded',
+                        notificationPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
+                      ]"
+                    >
+                      ← Trước
+                    </button>
+                    <span class="text-sm text-gray-600">
+                      {{ notificationPage }} / {{ totalNotificationPages }}
+                    </span>
+                    <button
+                      @click="notificationPage = Math.min(totalNotificationPages, notificationPage + 1)"
+                      :disabled="notificationPage === totalNotificationPages"
+                      :class="[
+                        'px-3 py-1 text-sm rounded',
+                        notificationPage === totalNotificationPages ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'
+                      ]"
+                    >
+                      Sau →
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -599,7 +594,6 @@
                       >
                         <option value="student">Học Sinh</option>
                         <option value="teacher">Giáo Viên</option>
-                        <option value="admin">Quản Trị Viên</option>
                       </select>
                     </div>
                     <div>
@@ -1388,7 +1382,6 @@ const getSectionTitle = () => {
 
 const getSectionDescription = () => {
   const descriptions = {
-    overview: 'Xem tổng quan về hệ thống và hoạt động gần đây',
     create: 'Tạo bài tập mới cho học sinh',
     exercises: 'Quản lý tất cả bài tập trong hệ thống',
     groups: 'Tổ chức bài tập theo nhóm và chủ đề',

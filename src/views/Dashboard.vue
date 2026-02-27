@@ -1,25 +1,5 @@
 <template>
   <div class="h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-white shadow-sm border-b px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <h1 class="text-xl font-bold text-green-600">Excel Tutor</h1>
-        <el-menu mode="horizontal" :default-active="activeMenu" @select="handleMenuSelect">
-          <el-menu-item index="dashboard">Dashboard</el-menu-item>
-          <el-menu-item index="programs">Chương trình</el-menu-item>
-          <el-menu-item index="assignments">Bài tập</el-menu-item>
-          <el-menu-item index="progress">Tiến độ</el-menu-item>
-          <el-menu-item v-if="authStore.isAdmin" index="admin">Quản trị</el-menu-item>
-        </el-menu>
-      </div>
-      
-      <div class="flex items-center gap-3">
-        <span class="text-sm text-gray-600">{{ authStore.user?.full_name }}</span>
-        <el-avatar :size="36">{{ authStore.user?.avatar || 'U' }}</el-avatar>
-        <el-button size="small" @click="handleLogout">Đăng xuất</el-button>
-      </div>
-    </header>
-
     <!-- Main Content -->
     <main class="flex-1 overflow-auto bg-gray-50 p-6">
       <div class="max-w-7xl mx-auto">
