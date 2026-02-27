@@ -18,26 +18,20 @@
     ]"
   >
     <!-- Logo/Header -->
-    <div class="p-6 border-b border-gray-200 relative h-24 flex items-center justify-center">
-      <!-- Collapsed state (icon only) -->
-      <div 
-        :class="[
-          'absolute transition-all duration-300 ease-in-out',
-          !isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-        ]"
-      >
-        <span class="text-2xl">🎓</span>
-      </div>
-      
-      <!-- Expanded state (full text) -->
-      <div 
-        :class="[
-          'absolute transition-all duration-300 ease-in-out',
-          isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-        ]"
-      >
-        <h2 class="text-xl font-bold text-gray-900 whitespace-nowrap">🎓 ClassIn</h2>
-        <p class="text-sm text-gray-600 mt-1 whitespace-nowrap text-center">Quản trị</p>
+    <div class="border-b border-gray-200 h-20 flex items-center">
+      <div class="flex items-center gap-2 w-full px-6">
+        <!-- Icon (always visible) -->
+        <span class="text-2xl flex-shrink-0">🎓</span>
+        
+        <!-- Text (only visible when expanded) -->
+        <h2 
+          :class="[
+            'text-xl font-bold text-gray-900 whitespace-nowrap transition-all duration-300 ease-in-out',
+            isHovered ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0 overflow-hidden'
+          ]"
+        >
+          Excel Tutor
+        </h2>
       </div>
       
       <!-- Close Button (Mobile) -->

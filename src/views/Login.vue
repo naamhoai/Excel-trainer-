@@ -4,7 +4,7 @@
     <div class="hidden lg:flex lg:w-3/4 bg-gray-100 items-center justify-center p-12 relative">
       <div class="absolute top-8 left-12">
         <button class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-full text-sm hover:bg-white transition">
-          <span>Classin X Hardware Ecosystem</span>
+          <span>Excel Tutor X Hardware Ecosystem</span>
         </button>
       </div>
       
