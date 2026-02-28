@@ -1,120 +1,262 @@
 <template>
   <div class="excel-tutor">
-    <!-- Title Bar -->
+    <!-- 1. Top Title Bar -->
     <div class="title-bar">
-      <div class="logo">
-        <div class="logo-icon">E</div>
-        ExcelTutor
-        <span class="ai-badge">AI</span>
+      <div class="title-bar-left">
+        <div class="app-icon">
+          <el-icon><DataBoard /></el-icon>
+        </div>
+        <div class="logo">
+          {{ task.title }} - Excel
+        </div>
       </div>
-      <div class="file-name">📊 {{ task.title }} — ExcelTutor</div>
-      <div class="win-btns">
-        <button class="win-btn" @click="$router.back()">←</button>
+      <div class="title-bar-center">
+        <div class="search-box">
+          <el-icon><Search /></el-icon>
+          <input type="text" placeholder="Search (Alt+Q)" />
+        </div>
+      </div>
+      <div class="title-bar-right">
+        <div class="share-btn">
+          <el-icon><Share /></el-icon> Share
+        </div>
+        <div style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #e1dfdd; border-radius: 50%; color: #323130; font-weight: bold; font-size: 14px;">
+          NA
+        </div>
+        <div class="win-btns" style="display:flex; gap: 8px; color: #605e5c; padding-left: 16px;">
+           <el-icon style="cursor: pointer" :size="16" @click="$router.push('/')"><Close /></el-icon>
+        </div>
       </div>
     </div>
 
-    <!-- Ribbon -->
+    <!-- 2. Ribbon Tabs -->
     <div class="ribbon">
       <div class="ribbon-tabs">
-        <button class="ribbon-tab active">Trang chủ</button>
-        <button class="ribbon-tab">Chèn</button>
-        <button class="ribbon-tab">Công thức</button>
-        <button class="ribbon-tab">Dữ liệu</button>
-        <button class="ribbon-tab">Xem</button>
-        <button class="ribbon-tab tutor-tab" @click="toggleTutorial">🎓 AI Gia sư</button>
+        <button class="ribbon-tab file-tab">File</button>
+        <button class="ribbon-tab active">Home</button>
+        <button class="ribbon-tab">Insert</button>
+        <button class="ribbon-tab">Draw</button>
+        <button class="ribbon-tab">Page Layout</button>
+        <button class="ribbon-tab">Formulas</button>
+        <button class="ribbon-tab">Data</button>
+        <button class="ribbon-tab">Review</button>
+        <button class="ribbon-tab">View</button>
+        <button class="ribbon-tab">Help</button>
       </div>
+
+      <!-- 3. Ribbon Content (Home Tab) -->
       <div class="ribbon-content">
+        <!-- Clipboard Group -->
         <div class="ribbon-group">
-          <div class="ribbon-btns">
-            <button class="rbn-btn"><span class="icon">📋</span>Dán</button>
-            <button class="rbn-btn"><span class="icon">✂️</span>Cắt</button>
-            <button class="rbn-btn"><span class="icon">📄</span>Sao chép</button>
+          <div class="ribbon-group-content">
+            <button class="rbn-btn rbn-btn-large">
+              <img src="https://img.icons8.com/color/48/paste.png" class="icon" style="width:24px;height:24px;" alt="paste"/>
+              <span>Paste</span>
+            </button>
+            <div class="rbn-stack">
+              <button class="rbn-btn rbn-btn-small" @click="copyCell"><el-icon class="icon"><Scissor /></el-icon> Cut</button>
+              <button class="rbn-btn rbn-btn-small"><el-icon class="icon"><CopyDocument /></el-icon> Copy</button>
+              <button class="rbn-btn rbn-btn-small"><el-icon class="icon"><Brush /></el-icon> Format Painter</button>
+            </div>
           </div>
-          <div class="ribbon-group-label">Bảng tạm</div>
+          <div class="ribbon-group-label">Clipboard</div>
+          <div class="dialog-launcher"><el-icon><CopyDocument /></el-icon></div>
         </div>
         
+        <!-- Font Group -->
         <div class="ribbon-group">
-          <div class="ribbon-btns">
-            <select style="height:20px;font-size:11px;border:1px solid #ccc;padding:0 2px">
-              <option>Calibri</option>
-              <option>Arial</option>
-              <option>Times New Roman</option>
-            </select>
-            <select style="height:20px;font-size:11px;border:1px solid #ccc;width:36px;padding:0 2px">
-              <option>11</option>
-              <option>12</option>
-              <option>14</option>
-            </select>
+          <div class="ribbon-group-content" style="flex-direction: column; gap: 4px;">
+            <div class="rbn-row">
+              <div class="rbn-dropdown font-family"><span>Calibri</span><el-icon class="rbn-dropdown-arrow"><ArrowDown /></el-icon></div>
+              <div class="rbn-dropdown font-size"><span>11</span><el-icon class="rbn-dropdown-arrow"><ArrowDown /></el-icon></div>
+              <div class="rbn-row" style="margin-left: 4px;">
+                 <button class="rbn-btn rbn-btn-small" style="font-weight:bold; font-size:12px;">A<sup style="font-size:8px">^</sup></button>
+                 <button class="rbn-btn rbn-btn-small" style="font-weight:bold; font-size:10px;">A<sup style="font-size:7px">v</sup></button>
+              </div>
+            </div>
+            <div class="rbn-row">
+              <button class="rbn-btn rbn-btn-small" style="font-weight: bold;">B</button>
+              <button class="rbn-btn rbn-btn-small" style="font-style: italic; font-family: serif;">I</button>
+              <button class="rbn-btn rbn-btn-small flex items-center gap-0">
+                <span style="text-decoration: underline;">U</span>
+                <el-icon class="rbn-dropdown-arrow" style="margin-left:2px"><ArrowDown /></el-icon>
+              </button>
+              <div class="rbn-divider"></div>
+              <button class="rbn-btn rbn-btn-small flex items-center gap-0">
+                <el-icon><Grid /></el-icon>
+                <el-icon class="rbn-dropdown-arrow" style="margin-left:2px"><ArrowDown /></el-icon>
+              </button>
+              <button class="rbn-btn rbn-btn-small rbn-color-btn" style="border-bottom-color: yellow;">
+                <el-icon style="color: #605e5c;"><Brush /></el-icon>
+              </button>
+              <button class="rbn-btn rbn-btn-small rbn-color-btn flex items-center gap-0" style="border-bottom-color: #A4262C;">
+                <span style="color: #A4262C; font-weight: bold;">A</span>
+                <el-icon class="rbn-dropdown-arrow" style="margin-left:2px"><ArrowDown /></el-icon>
+              </button>
+            </div>
           </div>
-          <div class="ribbon-btns" style="margin-top:2px">
-            <button class="rbn-btn" style="min-width:24px"><b>B</b></button>
-            <button class="rbn-btn" style="min-width:24px"><i>I</i></button>
-            <button class="rbn-btn" style="min-width:24px"><u>U</u></button>
+          <div class="ribbon-group-label">Font</div>
+          <div class="dialog-launcher"><el-icon><CopyDocument /></el-icon></div>
+        </div>
+
+        <!-- Alignment Group -->
+        <div class="ribbon-group">
+          <div class="ribbon-group-content">
+             <div class="rbn-stack">
+               <div class="rbn-row">
+                 <button class="rbn-btn rbn-btn-small"><el-icon style="transform: rotate(180deg)"><Fold /></el-icon></button>
+                 <button class="rbn-btn rbn-btn-small"><el-icon><Expand /></el-icon></button>
+                 <button class="rbn-btn rbn-btn-small"><el-icon><Fold /></el-icon></button>
+               </div>
+               <div class="rbn-row">
+                 <button class="rbn-btn rbn-btn-small"><el-icon style="transform: rotate(180deg)"><Notification /></el-icon></button>
+                 <button class="rbn-btn rbn-btn-small"><el-icon><Menu /></el-icon></button>
+                 <button class="rbn-btn rbn-btn-small"><el-icon><Notification /></el-icon></button>
+               </div>
+             </div>
+             <div class="rbn-stack" style="margin-left: 4px;">
+                <button class="rbn-btn rbn-btn-small"><el-icon class="icon"><Connection /></el-icon> Wrap Text</button>
+                <button class="rbn-btn rbn-btn-small"><el-icon class="icon"><DataLine /></el-icon> Merge & Center <el-icon class="rbn-dropdown-arrow"><ArrowDown /></el-icon></button>
+             </div>
           </div>
-          <div class="ribbon-group-label">Phông chữ</div>
+          <div class="ribbon-group-label">Alignment</div>
+          <div class="dialog-launcher"><el-icon><CopyDocument /></el-icon></div>
+        </div>
+
+        <!-- Number Group -->
+        <div class="ribbon-group">
+          <div class="ribbon-group-content" style="flex-direction: column; gap: 4px;">
+            <div class="rbn-dropdown" style="width: 140px; justify-content: space-between;"><span>General</span><el-icon class="rbn-dropdown-arrow"><ArrowDown /></el-icon></div>
+            <div class="rbn-row">
+              <button class="rbn-btn rbn-btn-small flex items-center gap-0">$ <el-icon class="rbn-dropdown-arrow" style="margin-left:2px"><ArrowDown /></el-icon></button>
+              <button class="rbn-btn rbn-btn-small">%</button>
+              <button class="rbn-btn rbn-btn-small" style="font-weight: bold;">,</button>
+              <div class="rbn-divider"></div>
+              <button class="rbn-btn rbn-btn-small" style="font-size: 10px;">.00<br>→0</button>
+              <button class="rbn-btn rbn-btn-small" style="font-size: 10px;">.0<br>←00</button>
+            </div>
+          </div>
+          <div class="ribbon-group-label">Number</div>
+          <div class="dialog-launcher"><el-icon><CopyDocument /></el-icon></div>
+        </div>
+
+        <!-- Styles Group -->
+        <div class="ribbon-group">
+          <div class="ribbon-group-content">
+            <button class="rbn-btn rbn-btn-large">
+              <el-icon class="icon" style="color: #D83B01"><Memo /></el-icon>
+              <span>Conditional<br>Formatting <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+            </button>
+            <button class="rbn-btn rbn-btn-large">
+              <el-icon class="icon" style="color: #0078D4"><Grid /></el-icon>
+              <span>Format as<br>Table <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+            </button>
+            <button class="rbn-btn rbn-btn-large">
+              <el-icon class="icon" style="color: #0078D4"><Tickets /></el-icon>
+              <span>Cell<br>Styles <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+            </button>
+          </div>
+          <div class="ribbon-group-label">Styles</div>
         </div>
         
+        <!-- Cells Group -->
         <div class="ribbon-group">
-          <div class="ribbon-btns">
-            <button class="rbn-btn">⬛⬜⬜</button>
-            <button class="rbn-btn">⬜⬛⬜</button>
-            <button class="rbn-btn">⬜⬜⬛</button>
+          <div class="ribbon-group-content">
+            <button class="rbn-btn rbn-btn-large">
+              <el-icon class="icon" style="color: #107C41"><Plus /></el-icon>
+              <span>Insert <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+            </button>
+            <button class="rbn-btn rbn-btn-large">
+              <el-icon class="icon" style="color: #A4262C"><Close /></el-icon>
+              <span>Delete <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+            </button>
+            <button class="rbn-btn rbn-btn-large">
+              <el-icon class="icon" style="color: #0078D4"><Grid /></el-icon>
+              <span>Format <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+            </button>
           </div>
-          <div class="ribbon-group-label">Căn chỉnh</div>
+          <div class="ribbon-group-label">Cells</div>
         </div>
         
+        <!-- Editing Group -->
         <div class="ribbon-group">
-          <div class="ribbon-btns">
-            <button class="rbn-btn ai-btn" :class="{ 'active-btn': tutorialOpen }" @click="toggleTutorial">
-              <span class="icon">🤖</span>AI Gia sư
-            </button>
-            <button class="rbn-btn ai-btn" @click="explainSelected">
-              <span class="icon">💡</span>Giải thích
-            </button>
-            <button class="rbn-btn ai-btn" @click="checkExercise">
-              <span class="icon">✅</span>Chấm bài
-            </button>
+          <div class="ribbon-group-content">
+             <div class="rbn-stack">
+               <button class="rbn-btn rbn-btn-small" style="justify-content:flex-start"><span style="font-size:16px; font-weight:bold; color:var(--excel-green); padding-right:4px;">∑</span> AutoSum <el-icon class="rbn-dropdown-arrow"><ArrowDown /></el-icon></button>
+               <button class="rbn-btn rbn-btn-small" style="justify-content:flex-start"><el-icon class="icon" style="color:#0078D4"><ArrowDown /></el-icon> Fill <el-icon class="rbn-dropdown-arrow"><ArrowDown /></el-icon></button>
+               <button class="rbn-btn rbn-btn-small" style="justify-content:flex-start"><el-icon class="icon" style="color:#D83B01"><Close /></el-icon> Clear <el-icon class="rbn-dropdown-arrow"><ArrowDown /></el-icon></button>
+             </div>
+             
+             <div class="rbn-stack" style="margin-left:4px">
+                <button class="rbn-btn rbn-btn-large" style="min-width: 50px">
+                  <span style="font-size:18px">A<br/>Z</span>
+                  <span>Sort &<br/>Filter <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+                </button>
+             </div>
+             <div class="rbn-stack">
+                <button class="rbn-btn rbn-btn-large" style="min-width: 50px">
+                  <el-icon class="icon" style="font-size:20px"><Search /></el-icon>
+                  <span>Find &<br/>Select <el-icon class="rbn-dropdown-arrow" style="margin:0"><ArrowDown /></el-icon></span>
+                </button>
+             </div>
           </div>
-          <div class="ribbon-group-label">🤖 Tính năng AI</div>
+          <div class="ribbon-group-label">Editing</div>
         </div>
+
+        <div class="flex-1"></div>
+        <button class="share-btn" style="align-self: center; margin-right: 16px; height: 28px; background: var(--excel-green); color: white;">
+          <el-icon><Share /></el-icon> Share
+        </button>
       </div>
     </div>
 
-    <!-- Formula Bar -->
-    <div class="formula-bar">
-      <div class="cell-ref">{{ selectedCell }}</div>
-      <div class="fx-label"><i>fx</i></div>
-      <input type="text" v-model="formulaBar" @keyup.enter="applyFormula" />
+    <!-- 4. Formula Bar -->
+    <div class="formula-bar-container">
+      <div class="name-box">
+        {{ selectedCell || 'A1' }}
+        <el-icon class="name-box-arrow"><ArrowDown /></el-icon>
+      </div>
+      <div class="formula-splitter">⋮</div>
+      <div class="formula-btns">
+         <div class="f-btn disabled">✕</div>
+         <div class="f-btn disabled">✓</div>
+      </div>
+      <div class="fx-btn" @click="explainSelected" title="Insert Function (Explain with AI)">fx</div>
+      <div class="formula-input-wrapper">
+        <input type="text" v-model="formulaBar" @keyup.enter="applyFormula" />
+        <div class="formula-dropdown-arrow"><el-icon><ArrowDown /></el-icon></div>
+      </div>
     </div>
 
-    <!-- Main Area -->
-    <div class="main-area">
-      <!-- Spreadsheet -->
-      <div class="spreadsheet-container">
-        <div class="grid-wrapper">
-          <table class="grid">
+    <!-- 5. Main Content Area -->
+    <div class="main-content">
+      <!-- Workspace (Grid + Bottom Bars) -->
+      <div class="workspace">
+        <div class="grid-scroll-area">
+          <table class="excel-grid">
             <thead>
               <tr>
-                <th class="row-header"></th>
+                <th class="select-all-corner">
+                   <div class="select-all-triangle"></div>
+                </th>
                 <th 
                   v-for="(col, idx) in columns" 
                   :key="col"
-                  :style="{ width: columnWidths[idx] + 'px', minWidth: columnWidths[idx] + 'px' }"
-                  class="resizable-header"
+                  :style="{ width: columnWidths[idx] + 'px' }"
+                  class="col-header"
+                  :class="{'active-header': selectedCell.startsWith(col)}"
                   @contextmenu.prevent="showContextMenu($event, 'column', idx)"
                 >
                   {{ col }}
-                  <div 
-                    class="resize-handle"
-                    @mousedown="startResize($event, idx)"
-                  ></div>
+                  <div class="resize-handle" @mousedown="startResize($event, idx)"></div>
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="row in rows" :key="row">
                 <td 
-                  class="row-header-cell"
+                  class="row-header"
+                  :class="{'active-header': selectedCell.endsWith(String(row))}"
                   @contextmenu.prevent="showContextMenu($event, 'row', row)"
                 >
                   {{ row }}
@@ -122,44 +264,85 @@
                 <td
                   v-for="(col, idx) in columns"
                   :key="`${col}${row}`"
-                  :class="getCellClass(col, row)"
-                  :style="{ width: columnWidths[idx] + 'px', minWidth: columnWidths[idx] + 'px' }"
+                  class="cell"
+                  :class="{'active-cell': `${col}${row}` === selectedCell, 'has-formula': isFormula(col, row)}"
+                  :style="{ width: columnWidths[idx] + 'px', maxWidth: columnWidths[idx] + 'px' }"
                   @click="selectCell(col, row)"
                   @contextmenu.prevent="showContextMenu($event, 'cell', `${col}${row}`)"
                   @mouseenter="onCellHover(col, row, $event)"
                   @mouseleave="onCellLeave"
                 >
-                  <div class="cell-content" :class="getCellAlign(col, row)">
+                  <div class="cell-content-div" :class="getCellAlign(col, row)">
                     {{ getCellDisplay(col, row) }}
-                    <span v-if="isFormula(col, row)" class="formula-indicator">ƒ</span>
                   </div>
+                  <div v-if="`${col}${row}` === selectedCell" class="fill-handle"></div>
+                  <div v-if="isFormula(col, row)" class="formula-triangle"></div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <!-- 6. Bottom Sheet Tabs -->
+        <div class="bottom-bar">
+          <div class="sheet-nav-btns">
+            <el-icon class="icon"><CaretLeft /></el-icon>
+            <el-icon class="icon"><CaretRight /></el-icon>
+          </div>
+          <div class="sheet-tabs">
+            <div class="sheet-tab active">Sheet1</div>
+            <button class="add-sheet-btn"><el-icon><Plus /></el-icon></button>
+          </div>
+          <div class="scrollbar-spacer">
+             <div class="horizontal-scroll-track">
+                <div class="horizontal-scroll-thumb"></div>
+             </div>
+          </div>
+        </div>
+        
+        <!-- 7. Status Bar -->
+        <div class="status-bar">
+          <div class="status-left">
+            <span>Ready</span>
+            <span style="display: flex; align-items: center; gap: 4px;"><el-icon><Warning /></el-icon> Accessibility: Good to go</span>
+            <span style="color: #A78BFA; font-weight: 600; margin-left: 8px;">🤖 {{ timer }}</span>
+          </div>
+          <div class="status-right">
+            <div class="view-controls">
+              <el-icon class="view-icon active"><Grid /></el-icon>
+              <el-icon class="view-icon"><Document /></el-icon>
+              <el-icon class="view-icon"><CopyDocument /></el-icon>
+            </div>
+            <div class="zoom-controls">
+               <el-icon style="cursor: pointer"><Minus /></el-icon>
+               <div class="zoom-slider">
+                 <div class="zoom-thumb"></div>
+               </div>
+               <el-icon style="cursor: pointer"><Plus /></el-icon>
+               <span>100%</span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Tutorial Panel -->
+      <!-- Tutorial Panel Overlay -->
       <div class="tutorial-panel" :class="{ collapsed: !tutorialOpen }">
         <div class="tutorial-header">
-          <div class="tutorial-header-left">🤖 AI Tutor Panel</div>
-          <button class="tut-close" @click="toggleTutorial">✕</button>
+          <div class="tutorial-header-left"><el-icon style="margin-right:8px; font-size:16px"><MagicStick /></el-icon> AI Tutor Panel</div>
+          <button class="tut-close" @click="toggleTutorial"><el-icon><Close /></el-icon></button>
         </div>
         
         <div class="tutorial-body">
-          <div class="section-title">📚 Bài học hiện tại</div>
-          
           <div class="lesson-card active">
             <div class="lesson-title">
-              📊 {{ task.title }}
-              <span class="lesson-badge badge-active">Đang học</span>
+              {{ task.title }}
             </div>
             <div class="lesson-desc">{{ task.description }}</div>
           </div>
 
           <div class="step-container">
-            <div class="step-label">📌 Các bước thực hành:</div>
+            <div class="step-label">PRACTICE STEPS:</div>
             <div
               v-for="(step, idx) in steps"
               :key="idx"
@@ -171,32 +354,25 @@
             </div>
           </div>
 
-          <div class="tip-box">
-            <div class="tip-title">💡 Bạn có biết?</div>
-            <div class="tip-content" v-html="task.tip"></div>
-          </div>
-        </div>
-
-        <!-- Exercise Section -->
-        <div class="exercise-section">
-          <div class="exercise-title">🏆 Bài tập thực hành</div>
-          <div class="exercise-desc">{{ task.exerciseDesc }}</div>
-          
-          <div
-            v-for="(ex, idx) in exercises"
-            :key="idx"
-            class="exercise-task"
-          >
-            <div class="task-check" :class="{ done: ex.done }">
-              {{ ex.done ? '✓' : idx + 1 }}
+          <!-- Exercise Section -->
+          <div class="exercise-section" style="margin-top: 16px; border-radius: 4px; padding: 12px; border: 1px solid var(--border-color);">
+            <div class="exercise-title"><el-icon style="margin-right:4px;"><Trophy /></el-icon> Evaluation</div>
+            <div class="exercise-desc">{{ task.exerciseDesc }}</div>
+            
+            <div
+              v-for="(ex, idx) in exercises"
+              :key="idx"
+              class="exercise-task"
+            >
+              <div class="task-check" :class="{ done: ex.done }"></div>
+              <div v-html="ex.text"></div>
             </div>
-            <div v-html="ex.text"></div>
-          </div>
 
-          <button class="check-btn" @click="checkExercise">✅ Chấm bài</button>
-          
-          <div v-if="showScore" class="score-badge">
-            🏆 Điểm: {{ score }}/{{ exercises.length }} — {{ scoreMessage }}
+            <button class="check-btn" @click="checkExercise">Run Grader</button>
+            
+            <div v-if="showScore" class="score-badge">
+              Score: {{ score }}/{{ exercises.length }} — {{ scoreMessage }}
+            </div>
           </div>
         </div>
       </div>
@@ -210,41 +386,29 @@
       @click.stop
     >
       <template v-if="contextMenu.type === 'row'">
-        <div class="context-menu-item" @click="insertRowAbove">
-          <span>⬆️</span> Chèn dòng phía trên
-        </div>
-        <div class="context-menu-item" @click="insertRowBelow">
-          <span>⬇️</span> Chèn dòng phía dưới
-        </div>
+        <div class="context-menu-item" @click="insertRowAbove">Insert row above</div>
+        <div class="context-menu-item" @click="insertRowBelow">Insert row below</div>
         <div class="context-menu-divider"></div>
-        <div class="context-menu-item danger" @click="deleteRow">
-          <span>🗑️</span> Xóa dòng
-        </div>
+        <div class="context-menu-item danger" @click="deleteRow">Delete row</div>
       </template>
       
       <template v-if="contextMenu.type === 'column'">
-        <div class="context-menu-item" @click="insertColumnLeft">
-          <span>⬅️</span> Chèn cột bên trái
-        </div>
-        <div class="context-menu-item" @click="insertColumnRight">
-          <span>➡️</span> Chèn cột bên phải
-        </div>
+        <div class="context-menu-item" @click="insertColumnLeft">Insert column left</div>
+        <div class="context-menu-item" @click="insertColumnRight">Insert column right</div>
         <div class="context-menu-divider"></div>
-        <div class="context-menu-item danger" @click="deleteColumn">
-          <span>🗑️</span> Xóa cột
-        </div>
+        <div class="context-menu-item danger" @click="deleteColumn">Delete column</div>
       </template>
       
       <template v-if="contextMenu.type === 'cell'">
         <div class="context-menu-item" @click="copyCell">
-          <span>📄</span> Sao chép
+           <el-icon><CopyDocument /></el-icon> Copy
         </div>
         <div class="context-menu-item" @click="pasteCell">
-          <span>📋</span> Dán
+           <el-icon><DocumentCopy /></el-icon> Paste
         </div>
         <div class="context-menu-divider"></div>
         <div class="context-menu-item" @click="clearCell">
-          <span>🧹</span> Xóa nội dung
+           <el-icon><Delete /></el-icon> Clear contents
         </div>
       </template>
     </div>
@@ -255,7 +419,7 @@
       :class="{ visible: tooltipVisible }"
       :style="tooltipStyle"
     >
-      <button class="ai-tooltip-close" @click="closeTooltip">✕</button>
+      <button class="ai-tooltip-close" @click="closeTooltip"><el-icon><Close /></el-icon></button>
       <div class="ai-tooltip-header">🤖 {{ tooltipTitle }}</div>
       <div class="ai-tooltip-formula">{{ tooltipFormula }}</div>
       <div class="ai-tooltip-body" v-html="tooltipBody"></div>
@@ -266,21 +430,18 @@
       <span>{{ toastIcon }}</span>
       <span>{{ toastMessage }}</span>
     </div>
-
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <div class="status-item">📊 Sẵn sàng</div>
-      <div class="status-divider"></div>
-      <div class="status-item">Thời gian: {{ timer }}</div>
-      <div class="status-divider"></div>
-      <div class="status-item" style="color:#a78bfa">🤖 AI: Sẵn sàng giải thích</div>
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import {
+  DataBoard, Search, Share, Close, MagicStick, DocumentCopy, CopyDocument, Scissor, Brush,
+  ArrowDown, Grid, Fold, Expand, Notification, Menu, Connection, DataLine, 
+  Memo, Tickets, ChatDotRound, CircleCheck, CaretLeft, CaretRight, Plus, Warning, Document, 
+  Minus, Trophy, Delete
+} from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -307,7 +468,7 @@ const contextMenu = ref({
 // Task data
 const task = ref({
   id: route.params.taskId,
-  title: 'Bài 1: Hàm SUM',
+  title: route.query.title || 'Book1',
   description: 'Tính tổng các giá trị trong một vùng dữ liệu',
   exerciseDesc: 'Hoàn thành các nhiệm vụ dưới đây để ghi điểm:',
   tip: 'Hàm <span style="color:#a78bfa;font-family:monospace">=SUM()</span> có thể nhận nhiều vùng:<br><span style="color:#67e8f9;font-family:monospace">=SUM(A1:A5, C1:C5)</span>'
